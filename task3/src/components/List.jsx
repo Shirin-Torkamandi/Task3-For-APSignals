@@ -48,6 +48,10 @@ export default function InteractiveList({ questions }) {
     router.push("/addquestion");
   };
 
+  const handleGenerateForm = () => {
+    router.push("/generateform");
+  };
+
   const [openDialog, setOpenDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -89,7 +93,7 @@ export default function InteractiveList({ questions }) {
             </Grid>
             <Grid item xs={12}>
               <Stack direction="row" spacing={2}>
-                <Button variant="outlined" endIcon={<FeedRoundedIcon />}>
+                <Button onClick={handleGenerateForm} variant="outlined" endIcon={<FeedRoundedIcon />}>
                   Generate Form
                 </Button>
                 <Tooltip
