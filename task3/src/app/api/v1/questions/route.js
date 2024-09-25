@@ -4,18 +4,25 @@ export let data = [
   {
     id: "1",
     title: "What's your name?",
+    typeOfQuestion: "short-answer",
   },
   {
     id: "2",
     title: "How old are you?",
+    typeOfQuestion: "multiple-choice",
+    options: ["18-25", "26-33", "34-41", "42-49"],
   },
   {
     id: "3",
     title: "What kind of system are you using?",
+    typeOfQuestion: "Multiple-Choice",
+    options: ["Windows", "Mac", "Linux", "Other"],
   },
   {
     id: "4",
     title: "Do you have good connections?",
+    typeOfQuestion: "Multiple-Choice",
+    options: ["Yes", "No"],
   },
 ];
 
