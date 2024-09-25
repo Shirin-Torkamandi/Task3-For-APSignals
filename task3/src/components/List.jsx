@@ -24,6 +24,14 @@ import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const dancingScript = Dancing_Script({
   weight: "500",
@@ -39,6 +47,31 @@ export default function InteractiveList({ questions }) {
   const handleClick = () => {
     router.push("/addquestion");
   };
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    console.log("Question deleted.");
+    setOpenDialog(false);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
@@ -119,6 +152,7 @@ export default function InteractiveList({ questions }) {
                       edge="end"
                       aria-label="delete"
                       sx={{ color: grey[600] }}
+                      onClick={handleClickOpenDialog}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -136,6 +170,51 @@ export default function InteractiveList({ questions }) {
           </List>
         </Grid>
       </Grid>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="delete-dialog-title"
+        aria-describedby="delete-dialog-description"
+      >
+        <DialogTitle id="delete-dialog-title">
+          {"Are you sure you wanna delete this question?"}
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText id="delete-dialog-description">
+            This action cannot be undone. Please confirm if you want to delete
+            this question.
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleCloseDialog} sx={{ color: "#1976d2" }}>
+            No, I'm not
+          </Button>
+
+          <Button
+            onClick={handleConfirmDelete}
+            sx={{ color: "#d32f2f" }}
+            autoFocus
+          >
+            Yeah, I'm sure
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Question deleted successfully!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
